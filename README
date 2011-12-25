@@ -1,0 +1,23 @@
+*Note*
+
+I'm in the process of restructuring Clay's file structure and will be committing new files as they are updated. Some of the content in this README does not reflect the current state of this repo.
+
+A good place to start is to load up [clay]/html/example in your browser. Then take a look at the files that are being used.
+
+*Introduction*
+
+Clay Framework is a light-weight PHP 5 development platform. Clay features a small core class, which is used to load APIs on-demand. Clay's minimalist design makes room for developers to build into the codebase whatever is needed, or use what is already there.
+
+*Some Features*
+
+The Clay Installer is a deployment tool, which creates configuration files and assists with project setup. The installer is modular, supporting packages, which means you can build your project's installer into Clay with ease.
+
+ClayDB is a simple database abstraction layer, built for PDO support, but also features a wrapper for Creole.
+
+Sculpt is a library of APIs used as an alternative to the traditional MVC design pattern. It features classes for Applications, Themes/Templates, and Data handling. It's difficult to put a pattern name on Sculpt, it is theme-based, control is shared between the theme and the application. A theme is in charge of what gets displayed, but the running application has the power to designate which theme is used. Applications have templates, which can be overidden by the theme.
+
+*What Now?*
+
+Clay is in Alpha development, so it may be a little while before it should be considered usable. Hopefully we'll soon have it release worthy, but until then please feel free to dig through it and lend a hand. 
+
+If you are interested in helping, please do! I've been working on Clay a long time, but I can do only so much.
