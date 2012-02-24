@@ -50,8 +50,8 @@ function library($path){
 class clay {
 
 	const name = 'Clay Framework';
-	const version = '0.6.1';
-	const build = '681';
+	const version = '0.8.9';
+	const build = '682';
 	const cname = 'Rai';
 	public static $config = array();
 	/**
@@ -97,7 +97,11 @@ class clay {
 		define('clay\LIB_PATH', \clay\PATH.'/libraries/');
 		if(is_array($config)) {
 			static::$config = static::config('sites/'.$config['conf'].'/config');
-			if(empty(static::$config)) static::$config = $config;
+			if(!empty(static::$config)){
+                            static::$config['conf'] = $config['conf'];
+                        }else {
+                            static::$config = $config;
+                        }
 		} else {
 			static::$config = static::config('sites/'.$config.'/config');
 			static::$config['conf'] = $config; # Save configuration name for reference

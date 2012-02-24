@@ -25,7 +25,7 @@ class core {
 		$relative_web_path_count = substr_count(\clay\WEB_DIR,'/') - substr_count(\clay\WEB_PATH,'/');
 		# Create a relative path from WEB_DIR to WEB_PATH
 		define('clay\WEB_REL_PATH',str_repeat('../',$relative_web_path_count));
-		define('clay\CFG_NAME', $config['conf']);
+                define('clay\CFG_NAME', $config['conf']);
 		define('clay\APPS_DIR', !empty($config['apps.dir']) ? $config['apps.dir'] : 'applications/');
 		define('clay\APPS_PATH', !empty($config['apps.path']) ? \clay\WEB_DIR.$config['apps.path'].\clay\APPS_DIR : \clay\WEB_DIR.\clay\APPS_DIR);
 		# Relative Path to Applications Directory from Web Root (for linking in HTML)
