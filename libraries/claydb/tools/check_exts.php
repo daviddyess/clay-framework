@@ -17,11 +17,11 @@ namespace claydb\tools;
 	$dbext = array();
 	//$dbext['DB++'] = extension_loaded('dbplus') ? true : false;
 	//$dbext['dBase'] = extension_loaded('dbase') ? true : false;
-	$dbext['MSSQL'] = extension_loaded('mssql') ? 'mssql' : false;
-	$dbext['MySQL'] = extension_loaded('mysql') ? 'mysql' : false;
-	$dbext['MySQLi'] = extension_loaded('mysqli') ? 'mysqli' : false;
-	$dbext['ODBC'] = extension_loaded('odbc') ? 'odbc' : false;
-	$dbext['Oracle'] = extension_loaded('oci8') ? 'oci8' : false;
+	//$dbext['MSSQL'] = extension_loaded('mssql') ? 'mssql' : false;
+	//$dbext['MySQL'] = extension_loaded('mysql') ? 'mysql' : false;
+	//$dbext['MySQLi'] = extension_loaded('mysqli') ? 'mysqli' : false;
+	//$dbext['ODBC'] = extension_loaded('odbc') ? 'odbc' : false;
+	//$dbext['Oracle'] = extension_loaded('oci8') ? 'oci8' : false;
 	//$dbext['PDO'] = extension_loaded('pdo') ? true : false;
 	//$dbext['PDO DBLIB'] = extension_loaded('pdo_dblib') ? true : false;
 	//$dbext['PDO Firebird/Interbase'] = extension_loaded('pdo_firebird') ? true : false;
@@ -33,8 +33,8 @@ namespace claydb\tools;
 	//$dbext['PDO PostgreSQL'] = extension_loaded('pdo_pgsql') ? true : false;
 	$dbext['PDO SQLite'] = extension_loaded('pdo_sqlite') ? 'pdo_sqlite' : false;
 	//$dbext['PDO 4D'] = extension_loaded('pdo_4d') ? true : false;
-	$dbext['PostgreSQL'] = extension_loaded('pgsql') ? 'pgsql' : false;
-	$dbext['SQLite'] = extension_loaded('sqlite') ? 'sqlite' : false;
+	//$dbext['PostgreSQL'] = extension_loaded('pgsql') ? 'pgsql' : false;
+	//$dbext['SQLite'] = extension_loaded('sqlite') ? 'sqlite' : false;
 	// return the list
 	return $dbext;
 	}
