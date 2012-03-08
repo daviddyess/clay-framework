@@ -83,53 +83,28 @@ abstract class object {
 			echo (!empty($this->defaultApp) || empty($this->pageTitle)) ? $this->siteName.' :: ' . $this->siteSlogan : $this->pageTitle.' :: ' . $this->siteName;
 
 	}
+	
 	/**
-	 * 	Takes specified template and localizes data to it
-	 * 	@param array $args
-	 * 	@example array('[application]' or '[theme]' => (string)[app] or [theme], 'template' => (string)[template], 'data' => (mixed));
-	 * 	@TODO Work in some error handling in case an expected template is missing.
-	 * 	@TODO Add debug option to display template information in HTML comments. (credit to Xaraya on the idea)
-	 *  @TODO Divide this method for object and static calls (check for $this)
-	 */
+	* Object wrapper Method for Static \clay\application::template()
+	* Object template method for Applications. This allows templates to assume $this is in context.
+	* Splitting template() into 2 methods (static and object) was done to obtain PHP Strict Standards compliance.
+	* @param array $args or string 'main' (for primary application area in Page template)
+	*/
 	public function template($args=array()){
-		# Let the madness begin!
-		switch(true){
-			# For redirects or other desired reasons not to include a template (component used $this->template = NULL)
-			case (is_null($args)):
-				# This isn't necessary, as none of the cases below should evaluate as true, but why let it keep going?
-				break;
-			case ($args === 'main'):
-				$args = $this->primary;
-			# Application specified in the $args array
-			case (!empty($args['application'])):
-				# First we look for an override template in our current theme
-				if(file_exists(\clay\THEMES_PATH.\clay\THEME.'/applications/'.$args['application'].'/'.$args['template'].'.tpl')){
-					# The theme override exists, set the template variable and break out.
-					$template = \clay\THEMES_PATH.\clay\THEME.'/applications/'.$args['application'].'/'.$args['template'].'.tpl';
-					break;
-				}
-				# Second we look for the template as specified in the application. (Note: This only happens when no theme template exists)
-				if(file_exists(\clay\APPS_PATH.$args['application'].'/templates/'.$args['template'].'.tpl')){
-					# The application template exists, set the template variable and break out.
-					$template = \clay\APPS_PATH.$args['application'].'/templates/'.$args['template'].'.tpl';
-					break;
-				}
-			break;
-			# Theme specified in the $args array
-			case (!empty($args['theme'])):
-				# Look for the specified theme template (Note: This doesn't have to be the current theme)
-				if(file_exists(\clay\THEMES_PATH.$args['theme'].'/templates/'.$args['template'].'.tpl')){
-					# The template exists, set and break out.
-					$template = \clay\THEMES_PATH.$args['theme'].'/templates/'.$args['template'].'.tpl';
-					break;
-				}
-			break;
+		# For redirects or other desired reasons not to include a template (component used $this->template = NULL)
+		if(is_null($args)) return;
+		# That wasn't necessary, but why let it keep going?
+		#'main' is often used in the Theme Page template for the primary application area.
+		if($args === 'main'){
+			$args = $this->primary;
 		}
-		# For whatever reason, no template was found. Return. TODO: We need some kind of exception if a template was specified and not found.
-		if(empty($template)) return; # Still trying to decide to how handle missing templates...
+		# Let the Static method do the rest.
+		$template = \clay\application::template($args);
+		# If nothing was found, stop here.
+		if(empty($template['tpl'])) return;
 		# If the supplied template data is an array, we extra each array key into it's own variable.
-		if(is_array($args['data'])) extract($args['data']);
+		if(is_array($template['data'])) extract($template['data']);
 		# Here's Johnny
-		include $template;
-	}
+		include $template['tpl'];
+	}	
 }
