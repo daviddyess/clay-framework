@@ -51,15 +51,29 @@ function noTags($var){
 }
 function html($var,$custom=''){
 	\library('clay/data/filters/html');
-	$tags = array('attributes' => array('id','class'),
+	/*$tags = array('attributes' => array('id','class'),
 					'elements' => array('img' => array('src','alt'), 'a' => array('href','title')),
 					'ignore' => array(),
-					'strip' => array('param','script','style','applet','form','object','embed','strong'));
-	$sa = \clay\data\cache::isCached('objects','filter.html') ? \clay\data\cache::get('objects','filter.html') : \clay\data\cache::set('objects','filter.html',new html());
-	$sa->allow = $tags['attributes'];
-	$sa->exceptions = $tags['elements'];
-	$sa->ignore = $tags['ignore'];
-	$sa->strip = $tags['strip'];
+					'strip' => array('param','script','style','applet','form','object','embed','head','noframes','noscript','noembed'));*/
+	if(\clay\data\cache::isCached('data','filter.html')){
+		$tags = \clay\data\cache::get('data','filter.html');
+	} else {
+		$tags = \clay\data\cache::set('data','filter.html', \clay::config('sites/'. \clay\CFG_NAME .'/html'));
+	}
+	#die(var_dump($tags));
+	if(\clay\data\cache::isCached('objects','filter.html')){
+		$sa = \clay\data\cache::get('objects','filter.html');
+	} else {
+		$sa = \clay\data\cache::set('objects','filter.html',new html());
+	}
+	#$sa->allow = $tags['attributes'];
+	$sa->exceptions = $tags;
+	#$sa->ignore = $tags['ignore'];
+	$sa->strip = array('param','script','style','applet','form','object','embed','head','noframes','noscript','noembed');
+	$sa->allowTags = '';
+	foreach($tags as $tag => $att){
+		$sa->allowTags = $sa->allowTags.'<'.$tag.'>';
+	}
 	$str = $sa->strip($var);
 	return $str;
 }

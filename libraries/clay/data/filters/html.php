@@ -25,6 +25,7 @@ class html
 	public $exceptions	= array(); //Elements with array of allowed attributes
 	public $ignore		= array(); //Elements to ignore
 	public $strip		= array(); //Elements not allowed
+	public $allowTags		= ''; //Elements allowed
 
 	public function strip( $str )
 	{
@@ -37,8 +38,9 @@ class html
 			//	return $res;
 			$nodes = $this->findAttributes( $res );
 			$this->removeAttributes( $nodes );
-			# Strip unwanted tags
+			# Strip unwanted tags - only strips specified tags, falls back to strip_tags().
 			$this->removeElements();
+			\strip_tags($this->str, $this->allowTags);
 		}
 
 		return $this->str;
