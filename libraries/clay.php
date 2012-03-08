@@ -91,10 +91,16 @@ class clay {
 	 * @return init or callback
 	 */
 	public static function bootstrap($config = 'default'){
-		define('clay\PATH', dirname(dirname(realpath(__FILE__)) .'/'));
-		define('clay\DATA_PATH', \clay\PATH.'/data/');
-		define('clay\CFG_PATH', \clay\DATA_PATH.'config/');
-		define('clay\LIB_PATH', \clay\PATH.'/libraries/');
+		# This can be called more than once, so we want to only define Constants the first time:
+		static $passes = 0;
+		if(empty($passes)){
+			define('clay\PATH', dirname(dirname(realpath(__FILE__)) .'/'));
+			define('clay\DATA_PATH', \clay\PATH.'/data/');
+			define('clay\CFG_PATH', \clay\DATA_PATH.'config/');
+			define('clay\LIB_PATH', \clay\PATH.'/libraries/');
+			# Skip this next time.
+			$passes = 1;
+		}
 		if(is_array($config)) {
 			static::$config = static::config('sites/'.$config['conf'].'/config');
 			if(!empty(static::$config)){
