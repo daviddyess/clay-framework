@@ -21,7 +21,7 @@ function application($application,$component='main'){
 	return 'application\\'.$application.'\\'.$component;
 }
 function application_library($application,$library){
-	if(!import(APPS_PATH.$application.'/libraries/'.$library)) throw new \Exception('Application API application\\'.$application.'\\api\\'.$library.' doesn\'t exist! in '.APPS_PATH);
+	if(!import(APPS_PATH.$application.'/library/'.$library)) throw new \Exception('Application API application\\'.$application.'\\api\\'.$library.' doesn\'t exist! in '.APPS_PATH);
 	return 'application\\'.$application.'\api\\'.$library;
 }
 /**
@@ -34,7 +34,7 @@ abstract class application {
 		# Method name as a string (including namespace)
 		$appAPI = '\application\\'.$application.'\api\\'.$library;
 		if(!method_exists($appAPI,$function)) {
-			import(\clay\APPS_PATH.$application.'/libraries/'.$library);
+			import(\clay\APPS_PATH.$application.'/library/'.$library);
 			if(!method_exists($appAPI,$function)) throw new \Exception('Application API function "'.$appAPI.'::'.$function.'()" could not be found using known file patterns!');
 		}
 		return $appAPI::$function($args);
