@@ -97,7 +97,7 @@ class clay {
 			define('clay\PATH', dirname(dirname(realpath(__FILE__)) .'/'));
 			define('clay\DATA_PATH', \clay\PATH.'/data/');
 			define('clay\CFG_PATH', \clay\DATA_PATH.'config/');
-			define('clay\LIB_PATH', \clay\PATH.'/libraries/');
+			define('clay\LIB_PATH', \clay\PATH.'/library/');
 			# Skip this next time.
 			$passes = 1;
 		}
