@@ -50,7 +50,7 @@ function noTags($var){
 	return strip_tags($var);
 }
 function html($var,$custom=''){
-	\library('clay/data/filters/html');
+	\library('clay/data/filter/html');
 	/*$tags = array('attributes' => array('id','class'),
 					'elements' => array('img' => array('src','alt'), 'a' => array('href','title')),
 					'ignore' => array(),
