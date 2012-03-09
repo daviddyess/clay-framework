@@ -1,5 +1,5 @@
 <?php
-namespace claydb\tools;
+namespace claydb\tool;
 /**
  * Clay Framework
  *

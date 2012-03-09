@@ -19,7 +19,7 @@
 		# uses the appropriate driver to create a connection
 		private static function connection($dsn){
 			# Import our adapter
-			\library('claydb/adapters/'.self::$adapters[$dsn['driver']]);
+			\library('claydb/adapter/'.self::$adapters[$dsn['driver']]);
 			# Adapter class as a string (notice difference between path and namespace)
 			$driver = '\claydb\adapter\\'.self::$adapters[$dsn['driver']];
 			$conn = new $driver;
