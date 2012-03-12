@@ -20,6 +20,13 @@ function application($application,$component='main'){
 	if(!import(APPS_PATH.$application.'/components/'.$component)) throw new \Exception('Application Component application\\'.$application.'\\'.$component.' doesn\'t exist! in '.APPS_PATH);
 	return 'application\\'.$application.'\\'.$component;
 }
+/**
+* Imports an Application Library.
+* @param string $application
+* @param string $library
+* @throws \Exception
+* @return string - namespace of the Library
+*/
 function application_library($application,$library){
 	if(!import(APPS_PATH.$application.'/library/'.$library)) throw new \Exception('Application API application\\'.$application.'\\library\\'.$library.' doesn\'t exist! in '.APPS_PATH);
 	return 'application\\'.$application.'\library\\'.$library;
@@ -29,7 +36,14 @@ function application_library($application,$library){
  *
  */
 abstract class application {
-
+	/**
+	* Allows one to access an Application Library static method as an API Function
+	* @param string $application
+	* @param string $library
+	* @param string $function
+	* @param mixed $args - default is array()
+	* @throws \Exception
+	*/
 	public static function api($application, $library, $function, $args = array()) {
 		# Method name as a string (including namespace)
 		$appAPI = '\application\\'.$application.'\library\\'.$library;
