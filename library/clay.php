@@ -50,8 +50,8 @@ function library($path){
 class clay {
 
 	const name = 'Clay Framework';
-	const version = '0.9.0';
-	const build = '685';
+	const version = '0.9.1';
+	const build = '700';
 	const cname = 'Rai';
 	public static $config = array();
 	/**
