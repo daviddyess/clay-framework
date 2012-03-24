@@ -62,10 +62,10 @@ abstract class setup {
 
 	protected function import(){
 		if(empty($this->application)) throw new \Exception('You must specify an application for the Clay Application Setup Library to work.');
-		if(!\import($this->path.$this->application.'/libraries/'.$this->api)) throw new \Exception('Application Library for '.$this->application.' named '.$this->api.' could not be found.');
+		if(!\import($this->path.$this->application.'/library/'.$this->api)) throw new \Exception('Application Library for '.$this->application.' named '.$this->api.' could not be found.');
 	}
 	protected function setup(){
-		return '\application\\'.$this->application.'\api\\'.$this->api;
+		return '\application\\'.$this->application.'\library\\'.$this->api;
 	}
 	public function info($key=NULL){
 		$file = $this->path.$this->application.'/info.php';
