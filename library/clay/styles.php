@@ -39,7 +39,7 @@ class styles {
 		return file_exists(THEMES_PATH.$name.'/styles/'.$file);
 	}
 	private static function themeOverride($application,$file){
-		return file_exists(THEMES_PATH.THEME.'apps/'.$application.'/styles/'.$file);
+		return file_exists(THEMES_PATH.THEME.'applications/'.$application.'/styles/'.$file);
 	}
 	private static function inApplication($name,$file){
 		return file_exists(APPS_PATH.$name.'/styles/'.$file);
@@ -51,7 +51,7 @@ class styles {
 		switch($args['type']){
 			case('app'):
 				if(self::themeOverride($args['name'],$args['file'])){
-					self::$map['styles'][$pattern]['src'] = REL_THEMES_PATH.THEME.'apps/'.$args['name'].'/styles/'.$args['file'];
+					self::$map['styles'][$pattern]['src'] = REL_THEMES_PATH.THEME.'applications/'.$args['name'].'/styles/'.$args['file'];
 				} elseif(self::inApplication($args['name'],$args['file'])) {
 					self::$map['styles'][$pattern]['src'] = REL_APPS_PATH.$args['name'].'/styles/'.$args['file'];
 				}
@@ -77,7 +77,7 @@ class styles {
 		switch($args['type']){
 			case('app'):
 				if(self::themeOverride($args['name'],$args['file'])){
-					self::$map['styles'][$pattern] = THEMES_PATH.THEME.'apps/'.$args['name'].'/styles/'.$args['file'];
+					self::$map['styles'][$pattern] = THEMES_PATH.THEME.'applications/'.$args['name'].'/styles/'.$args['file'];
 				} elseif(self::inApplication($args['name'],$args['file'])) {
 					self::$map['styles'][$pattern] = APPS_PATH.$args['name'].'/styles/'.$args['file'];
 				}
