@@ -66,16 +66,19 @@ function html($var,$custom=''){
 	} else {
 		$sa = \clay\data\cache::set('objects','filter.html',new html());
 	}
-	#$sa->allow = $tags['attributes'];
+
 	$sa->exceptions = $tags;
-	#$sa->ignore = $tags['ignore'];
-	$sa->strip = array('param','script','style','applet','form','object','embed','head','noframes','noscript','noembed');
-	$sa->allowTags = '';
+//die(var_dump($sa->exceptions));
+	$sa->tags = '';
 	foreach($tags as $tag => $att){
-		$sa->allowTags = $sa->allowTags.'<'.$tag.'>';
+		$sa->tags = $sa->tags.'<'.$tag.'>';
 	}
-	$str = $sa->strip($var);
-	return $str;
+	unset($tags);
+	//$str = $sa->strip($var);
+	//unset($sa);
+	//return $str;
+	
+	return $sa->strip($var);
 }
 function htmlencode($var){
 	return htmlspecialchars($var);
