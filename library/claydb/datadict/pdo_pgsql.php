@@ -3,12 +3,19 @@ namespace claydb\datadict;
 /**
  * ClayDB
  *
- * @copyright (C) 2007-2011 David L Dyess II
+ * @copyright (C) 2007-2012 David L Dyess II
  * @license GPL {@link http://www.gnu.org/licenses/gpl.html}
  * @link http://clay-project.com
  * @author David L Dyess II (david.dyess@gmail.com)
  */
-	class pdo_sqlite implements \ClayDBDatadict {
+
+/**
+*
+* Experimental! Probably doesn't work as-is
+* @author David
+*
+*/
+	class pdo_mysql implements \ClayDBDatadict {
 
 		protected $link;
 
@@ -23,7 +30,7 @@ namespace claydb\datadict;
 					$fields = $fields.', ';
 				}
 				$col = $this->dataType($data);
-				$fields = $fields.$col['name'].' '.$col['type'].$col['size'].' '.$col['key'].' '.$col['attribute'].' '.$col['default'];
+				$fields = $fields.$col['name'].' '.$col['type'].$col['size'].' '.$col['attribute'].' '.$col['default'].' '.$col['key'];
 			}
 			try {
 				$this->link->exec("Create Table $table($fields)");
@@ -65,27 +72,49 @@ namespace claydb\datadict;
 			switch($args['type']){
 				case 'id':
 					$data['type'] = 'INTEGER';
-					$data['size'] = '';
-					$data['attribute'] = 'AUTOINCREMENT';
+					$data['size'] = 10;
+					$data['attribute'] = 'UNSIGNED AUTO_INCREMENT';
 					$data['key'] = 'PRIMARY KEY';
 					break;
-				case 'string':					
-				case 'varchar':					
-				case 'char':					
-				case 'text':					
-				case 'sm-text':					
-				case 'med-text':					
-				case 'lg-text':
+				case 'string':
+					$data['type'] = 'VARCHAR';
+					$data['size'] = 255;
+					break;
+				case 'varchar':
+					$data['type'] = 'VARCHAR';
+					if(empty($data['size']))
+						$data['size'] = 100;
+					break;
+				case 'char':
+					$data['type'] = 'CHAR';
+					break;
+				case 'text':
 					$data['type'] = 'TEXT';
 					break;
+				case 'sm-text':
+					$data['type'] = 'TINYTEXT';
+					break;
+				case 'med-text':
+					$data['type'] = 'MEDIUMTEXT';
+					break;
+				case 'lg-text':
+					$data['type'] = 'LONGTEXT';
+					break;
 				case 'integer':
-				case 'int':					
-				case 'tiny-int':
-				case 'sm-int':
-				case 'med-int':
-				case 'big-int':
+				case 'int':
 					$data['type'] = 'INTEGER';
-					$data['attribute'] = '';
+					break;
+				case 'tiny-int':
+					$data['type'] = 'TINYINT';
+					break;
+				case 'sm-int':
+					$data['type'] = 'SMALLINT';
+					break;
+				case 'med-int':
+					$data['type'] = 'MEDIUMINT';
+					break;
+				case 'big-int':
+					$data['type'] = 'BIGINT';
 					break;
 				case 'float':
 					$data['type'] = 'FLOAT';
@@ -111,7 +140,6 @@ namespace claydb\datadict;
 				case 'boolean':
 					$data['type'] = 'TINYINT';
 					$data['size'] = 1;
-					
 					break;
 				case 'decimal':
 					$data['type'] = 'DECIMAL';

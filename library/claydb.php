@@ -1,21 +1,25 @@
 <?php
 /**
- * Clay Framework
- *
- * @copyright (C) 2007-2011 David L Dyess II
+ * ClayDB
+ * The development version for ClayDB 2.0
+ * @copyright (C) 2007-2012 David L Dyess II
  * @license GPL {@link http://www.gnu.org/licenses/gpl.html}
  * @link http://clay-project.com
  * @author David L Dyess II (david.dyess@gmail.com)
  */
 	class claydb {
-		# resource (connections) cache
+		# Resource (connections) cache
 		private static $connections = array();
-		# map drivers (adapters) to PHP extensions or libraries
+		# Map drivers (adapters) to PHP extensions or libraries
 		private static $adapters = array('mysql' => 'creoleDB', 'pdo_mysql' => 'pdo_mysql', 'pdo_sqlite' => 'pdo_sqlite');
-		# configuration name
+		# Override the configuration name
 		public static $cfg = '';
+		# Table reference (appends configured table prefixes)
 		public static $tables = array();
+		# Table prefix
 		public static $prefix = 'clay';
+		# ClayDB version
+		public static $version = '1.96';
 		# uses the appropriate driver to create a connection
 		private static function connection($dsn){
 			# Import our adapter
@@ -24,8 +28,8 @@
 			$driver = '\claydb\adapter\\'.self::$adapters[$dsn['driver']];
 			$conn = new $driver;
 			# Don't be confused here, we are not using $this->connect(). We are using the adapter's connect method.
-			$link = $conn->connect($dsn['driver'], $dsn['host'], $dsn['database'], $dsn['user'], $dsn['pw']);
-			# Return our resource
+			$conn->connect($dsn['driver'], $dsn['host'], $dsn['database'], $dsn['user'], $dsn['pw']);
+			# Return our resource - Callable using $conn->link-> ...
 			return $conn;
 		}
 		# test stuff / just checks for a connection and returns TRUE or FALSE
@@ -43,7 +47,9 @@
 			# If self::$cfg has been set, we use that as the site configuration, otherwise we use the one Clay is using
 			$config = !empty(self::$cfg) ? self::$cfg : \clay\CFG_NAME;
 			//self::$cfg = '';
-			$cache[$config.'.databases'] = !empty($cache[$config.'.databases']) ? $cache[$config.'.databases'] : \clay::config('sites/'.$config.'/databases');
+			if(empty($cache[$config.'.databases'])){ 
+				$cache[$config.'.databases'] = \clay::config('sites/'.$config.'/databases');
+			}
 			if(!empty($cache[$config.'.databases'][$src])){
 				$dbcfg = $cache[$config.'.databases'][$src]['connection'];
 				$dbname = $cache[$config.'.databases'][$src]['database'];
@@ -90,8 +96,8 @@
 	}
 
 	# TODO: Explain interface methods
-
 	# All adapters should implement this interface (currently not enforeced).
+	# TO BE DEPRECATED - see \claydb\adapter
 	interface ClayDBAdapter {
 		function connect($driver, $host, $database, $user, $pw);
 		function get($sql,$bind=array(),$limit='');
@@ -103,6 +109,8 @@
 		function datadict();
 	}
 	# All datadicts should implement this interface (currently not enforced).
+	# @fixme Update to match newest Datadict needs
+	# TO BE DEPRECATED - see \claydb\datadict
 	interface ClayDBDatadict {
 		function __construct($arg);
 		function createTable($table,$args);

@@ -1,22 +1,30 @@
 <?php
 namespace claydb\adapter;
 /**
- * Clay Framework
+ * Clay Database
  *
- * @copyright (C) 2007-2011 David L Dyess II
+ * @copyright (C) 2007-2012 David L Dyess II
  * @license GPL {@link http://www.gnu.org/licenses/gpl.html}
  * @link http://clay-project.com
  * @author David L Dyess II (david.dyess@gmail.com)
  */
-	class pdo_sqlite implements \ClayDBAdapter {
+
+/**
+ * 
+ * Experimental! Probably doesn't work as-is
+ * @author David
+ *
+ */
+	class pdo_pgsql implements \ClayDBAdapter {
 		public $database;
 		public $link;
 
 		function connect($driver, $host, $database, $user, $pw){
-			$db = \clay\DATA_PATH.$database.'.db';
-			$link = new \PDO("sqlite:$db",$user,$pw);
+			$dsn = 'pgsql:host='.$host.';dbname='.$database;
+			$link = new \PDO($dsn,$user,$pw);
 			$link->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
-			$this->link = $link;
+  			$link->exec('USE '.$database);
+  			$this->link = $link;
 			$this->database = $database;
 		}
 		function get($sql,$bind=array(),$limit=''){
@@ -44,8 +52,10 @@ namespace claydb\adapter;
 			return $this->change('DELETE FROM',$sql,$bind,$limit);
 		}
 		function change($action,$sql,$bind=array(),$limit=''){
-			# We don't use $limit here, as LIMIT is optional at compile time and may not be supported
-			$sth = $this->link->prepare($action.' '.$sql);
+			if(!empty($limit)) {
+				$limit = "LIMIT $limit";
+			}
+			$sth = $this->link->prepare($action.' '.$sql.' '.$limit);
 			try {
 				$sth->execute($bind);
 			} catch(PDOException $e) {
@@ -54,11 +64,12 @@ namespace claydb\adapter;
 			return $sth->rowCount();
 		}
 		function selectDB($database){
+			$this->link->exec('USE '.$database);
 			$this->database = $database;
 		}
 		function datadict(){
-			\library("claydb/datadict/pdo_sqlite");
-			$datadict = new \claydb\datadict\pdo_sqlite($this->link);
+			\library("claydb/datadict/pdo_pgsql");
+			$datadict = new \claydb\datadict\pdo_pgsql($this->link);
 			return $datadict;
 		}
 	}
