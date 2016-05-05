@@ -14,6 +14,7 @@ namespace claydb;
  * ClayDB Data Dictionary Interface.
  * An interface for creating Data Dictionary classes in ClayDB
  * @author David L Dyess II
+ * @TODO See abstract below
  */
 interface DataDictionaryInterface {
 	
@@ -42,6 +43,8 @@ interface DataDictionaryInterface {
  * @see \claydb\DataDictionaryInterface
  * @author David L Dyess
  * @TODO Determine methods that can be moved out of individual datadicts and implemented here
+ * @TODO Add dropTables() method
+ * @TODO Add parameter to optionally unregister tables to dropTable() and dropTables()
  */
 abstract class datadict implements DataDictionaryInterface {
 	
@@ -54,7 +57,7 @@ abstract class datadict implements DataDictionaryInterface {
 	abstract public function createIndex($table,$args);
 	
 	abstract public function dropIndex($table,$args);
-	
+
 	abstract public function dropTable($table);
 	
 	abstract public function dataType($args);

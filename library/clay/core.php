@@ -1,5 +1,5 @@
 <?php
-namespace clay;
+namespace Clay;
 /**
  * Clay Framework
  *
@@ -8,13 +8,26 @@ namespace clay;
  * @link http://clay-project.com
  * @author David L Dyess II (david.dyess@gmail.com)
  * @package Clay Core Library
+ * @todo All of this needs to be updated!!
  */
-/**
- * Default core constants and output logic; primarily intended to serve as examples.
- */
-class core {
 
+# Core Constants
+define( 'Clay\REQUIRED', 'REQUIRED' );
+define( 'Clay\ERROR', 'EXCEPTION');
+
+/**
+ * Clay Core Library
+ * Default core constants and output logic
+ */
+class Core {
+
+	/**
+	 * Clay Initialization
+	 * Defines Paths in preparation for Output
+	 * @param string $config
+	 */
 	public static function init($config){
+
 		# Some constants for our paths
 		define('clay\DB_CFG', !empty($config['db.cfg']) ? \clay\DATA_PATH.\clay\CFG_PATH.$config['db.cfg'] : \clay\DATA_PATH.\clay\CFG_PATH.'system/databases');
 		# Path from base directory all the way through the web directory
@@ -25,7 +38,7 @@ class core {
 		$relative_web_path_count = substr_count(\clay\WEB_DIR,'/') - substr_count(\clay\WEB_PATH,'/');
 		# Create a relative path from WEB_DIR to WEB_PATH
 		define('clay\WEB_REL_PATH',str_repeat('../',$relative_web_path_count));
-                define('clay\CFG_NAME', $config['conf']);
+		define('clay\CFG_NAME', $config['conf']);
 		define('clay\APPS_DIR', !empty($config['apps.dir']) ? $config['apps.dir'] : 'applications/');
 		define('clay\APPS_PATH', !empty($config['apps.path']) ? \clay\WEB_DIR.$config['apps.path'].\clay\APPS_DIR : \clay\WEB_DIR.\clay\APPS_DIR);
 		# Relative Path to Applications Directory from Web Root (for linking in HTML)
@@ -36,84 +49,103 @@ class core {
 		define('clay\REL_THEMES_PATH', !empty($config['themes.path']) ? $config['themes.path'].\clay\THEMES_DIR : \clay\THEMES_DIR);
 	}
 
+	/**
+	 * Clay Output
+	 * Initializes User, loads the Application, and outputs the Page template of the Theme
+	 * @param string $config
+	 * @throws \Exception
+	 */
 	public static function output($config){
-		# Loadup the Granule Data API
-		\clay::library('data');
-		# Find out if an Application has been requested in the URL (?app=)
-		$application = \clay\data\get('app','string','base', $config['application']);
+
+		# Import our libraries
+		\Library('Clay/Data');
+		\Library('Clay/Application');
+		\Library('Clay/Application/Component');
+		\Library('Clay/Module');
+		\Library('ClayDB');
+		\Clay\Application::API('system','error','start');
+		# New User - starts Session
+		$user = \Clay\Module::API('User','Instance');
+		# @TODO Move this further down and allow it to use a System || User setting
+		\ini_set( "date.timezone", 'America/Chicago' );
+		# Find out if an Application has been requested in the URL GET app
+		$application = \Clay\Data\Get('app','string','base', \Clay\Application::Setting('system','application'));
+		# If GET app is supplied, this is not the default.app
 		$config['default.app'] = empty($_GET['app']) ? true : false;
-		# Check for the ?com
-		$component = \clay\data\get('com','string','base', $config['component']);
+		# Check for the GET com (Application Component)
+		$component = \Clay\Data\Get('com','string','base', \Clay\Application::Setting('system','component'));
 	    if(empty($component)) $component = 'main';
-		# Check for the ?act
-		$action = \clay\data\get('act','string','base', $config['action']);
+		# Check for the GET act (Application Component Action)
+		$action = \clay\data\get('act','string','base', \Clay\Application::Setting('system','action'));
+	    # Default to Action 'view'
 	    if(empty($action)) $action = 'view';
+	    # No longer used, records the primary application @FIXME: Review and remove.
 		$config['output'] = $application.'_'.$component.'_'.$action;
-		# FIXME: We need a session handler selector
-		/*if(!empty($system['sessions']) && $system['sessions'] == 'session'){ // Temporary solution
-			\user::session_start(); // Start the session class
-		} else {
-			\session_start(); // Start the PHP session
-		}*/
-		\clay::library('user');
-		$user = new \clay\user;
-		# Default user id is 1 (anonymous)
-		if(empty($_SESSION['userid'])){
-			$_SESSION['userid'] = 20;
-		}
-		# Add 'userid' to the 'system' cache
-		//\clay\data\cache::set('system','userid',$system['userid']);
-		# Import our Controller class
-		\clay::library('application');
-		$primaryApp = \clay\application($application,$component);
-		$output = new $primaryApp;
+		# Initialize the Primary Application
+	    $output = \Clay\Application($application,$component);
+	    # Import default.app into object property default.app
 		$output->defaultApp = $config['default.app'];
-		$output->inject(array('siteName' => $config['siteName'], 'siteSlogan' => $config['siteSlogan'], 'pageTitle' => $config['pageTitle']));
-		$output->primary = $output->action($action);
+	    # Inject settings into object properties
+		$output->inject(array('siteName' => \Clay\Application::Setting('system','site.name'),
+							  'siteSlogan' => \Clay\Application::Setting('system','site.slogan'),
+							  'siteFooter' => \Clay\Application::Setting('system','site.footer'),
+							  'siteCopyright' => \Clay\Application::Setting('system','site.copyright')));
+		# Invoke the Action
+	    $output->primary = $output->action($action);
+	    # Theme selector
 		switch(true){
+	    	# Use a GET supplied Theme name - GET theme
 			case (!empty($_GET['theme'])):
-				$theme = \clay\data\get('theme','string','base');
+				$theme = \Clay\Data\Get('theme','string','base');
 				if(!empty($theme) && file_exists(\clay\THEMES_PATH.$theme)) break;
-			# Application has specified the theme
+			# Application has specified the theme - $this->theme
 			case (!empty($output->theme) && empty($config['default.app'])):
 				$theme = $output->theme;
 				if(!empty($theme) && file_exists(\clay\THEMES_PATH.$theme)) break;
-			# Theme has a page template for this application ([app].tpl), otherwise we use the system page setting.
+			# Fallback to system default theme.
 			case (true):
-				$theme = $config['theme'];
+				$theme = \Clay\Application::Setting('system','theme');
 				break;
 		}
+		# None of the above applied || none of the requested Themes exist
 		if(!is_dir(\clay\THEMES_PATH.$theme)) {
 			# Our theme doesn't exist!
 			throw new \Exception('The specified theme could not be found. '.$theme.' theme could not be located in '.\clay\THEMES_PATH.$theme.' directory!');
 		}
+		# Identify the Theme in an object property/Constant
 		$output->theme = $theme;
 		define('clay\THEME',$theme);
+		# Page Template selector
 		switch(true){
-			# [url]?pageName=mypage
+			# Use a GET supplied Page Template name - GET pageName
 			case (!empty($_GET['pageName'])):
-				$page = \clay\data\get('pageName','string','base');
+				$page = \Clay\Data\Get('pageName','string','base');
 				if(!empty($page) && file_exists(\clay\THEMES_PATH.$output->theme.'/pages/'.$page.'.tpl')) break;
-			# Home page - Use system/page.main setting or Application specified
-			case (!empty($config['default.app']) && !empty($config['page.main'])):
-				$page = $config['page.main'];
+			# Use a System setting for the homepage if applicable
+			$pageMain = \clay\application::setting('system','theme.page.main');
+			case (!empty($config['default.app']) && !empty($pageMain)):
+				$page = $pageMain;
 				if(!empty($page) && file_exists(\clay\THEMES_PATH.$output->theme.'/pages/'.$page.'.tpl')) break;
-			# Application has specified the page template
+			# Application has specified the page template - $this->template
 			case (!empty($output->page)):
 				$page = $output->page;
 				if(!empty($page) && file_exists(\clay\THEMES_PATH.$output->theme.'/pages/'.$page.'.tpl')) break;
-			# Theme has a page template for this application ([app].tpl), otherwise we use the system page setting.
+			# Theme has a page template override for this application ([app].tpl), otherwise we use the system page setting.
 			case (true):
 				$page = file_exists(\clay\THEMES_PATH.$output->theme.'/pages/'.$application.'.tpl') ? $application : 'default';
 				break;
 		}
+		# None of the requested Page Templates exist
 		if(!is_file(\clay\THEMES_PATH.$theme.'/pages/'.$page.'.tpl')) {
-			# Our theme doesn't exist!
 			throw new \Exception('The specified page template could not be found. '.$page.' page could not be located in '.\clay\THEMES_PATH.$theme.'/pages/ directory!');
 		}
+		# Set the object property/Constant
 		$output->page = $page;
 		define('clay\PAGE',$page);
+		# Output $this->page
 		$output->page();
+		# Finish our session before ending
+		\session_write_close();
+		# Returns NULL
 	}
-
 }

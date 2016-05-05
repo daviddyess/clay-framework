@@ -1,5 +1,5 @@
 <?php
-namespace clay\abstracts;
+namespace Clay\abstracts;
 /**
  * Clay Framework
  *
@@ -20,7 +20,7 @@ abstract class staticdb {
 		static $link;
 		if(!empty($link)) { goto end; }
 
-		\library('claydb');
+		\Library('ClayDB');
 		$link = \claydb::connect();
 		\claydb::tables();
 

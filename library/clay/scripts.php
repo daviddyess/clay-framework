@@ -1,18 +1,20 @@
 <?php
-namespace clay;
+namespace Clay;
+
 /**
  * Clay Framework
  *
- * @copyright (C) 2007-2010 David L Dyess II
+ * @copyright (C) 2007-2012 David L Dyess II
  * @license GPL {@link http://www.gnu.org/licenses/gpl.html}
  * @link http://clay-project.com
  * @author David L Dyess II (david.dyess@gmail.com)
  * @package Scripts Manager
  */
+
 /**
  * Provides a means of dynamically linking or including javascripts from Application and Themes, as well as external URLs.
  */
-class scripts {
+class Scripts {
 
 	public static $mode = 'external';
 	protected static $map = array();
@@ -27,31 +29,31 @@ class scripts {
 			self::$map['scripts.'.$args['position']][$pattern]['req'] = $args;
 		}
 	}
-	public static function addTheme($name,$file){
-		self::add(array('type' => 'theme', 'name' => $name, 'file' => $file));
+	public static function addTheme($name,$file,$position='body'){
+		self::add(array('type' => 'theme', 'name' => $name, 'file' => $file, 'position' => $position));
 	}
-	public static function addApplication($name,$file){
-		self::add(array('type' => 'app', 'name' => $name, 'file' => $file));
+	public static function addApplication($name,$file,$position='body'){
+		self::add(array('type' => 'app', 'name' => $name, 'file' => $file, 'position' => $position));
 	}
-	public static function addURL($name,$file){
-		self::add(array('type' => 'url', 'name' => $name, 'file' => $file));
+	public static function addURL($name,$file,$position='body'){
+		self::add(array('type' => 'url', 'name' => $name, 'file' => $file, 'position' => $position));
 	}
 	private static function inTheme($name,$file){
 		return file_exists(THEMES_PATH.$name.'/scripts/'.$file);
 	}
 	private static function themeOverride($application,$file){
-		return file_exists(THEMES_PATH.THEME.'applications/'.$application.'/scripts/'.$file);
+		return file_exists(THEMES_PATH.THEME.'/applications/'.$application.'/scripts/'.$file);
 	}
 	private static function inApplication($name,$file){
 		return file_exists(APPS_PATH.$name.'/scripts/'.$file);
 	}
 	private static function addExternal($args){
 		$pattern = self::pattern($args);
-		if(!isset($scripts[$pattern])){
+
 			switch($args['type']){
 				case('app'):
 					if(self::themeOverride($args['name'],$args['file'])){
-						self::$map['scripts.'.$args['position']][$pattern]['src'] = REL_THEMES_PATH.THEME.'applications/'.$args['name'].'/scripts/'.$args['file'];
+						self::$map['scripts.'.$args['position']][$pattern]['src'] = REL_THEMES_PATH.THEME.'/applications/'.$args['name'].'/scripts/'.$args['file'];
 					} elseif(self::inApplication($args['name'],$args['file'])) {
 						self::$map['scripts.'.$args['position']][$pattern]['src'] = REL_APPS_PATH.$args['name'].'/scripts/'.$args['file'];
 					}
@@ -70,7 +72,7 @@ class scripts {
 				self::$map['missing.scripts.'.$args['position']][] = $pattern;
 				unset(self::$map['scripts.'.$args['position']][$pattern]);
 			}
-		}
+
 
 	}
 	private static function addInternal($args){
@@ -78,7 +80,7 @@ class scripts {
 		switch($args['type']){
 			case('app'):
 				if(self::themeOverride($args['name'],$args['file'])){
-					self::$map['scripts.'.$args['position']][$pattern] = THEMES_PATH.THEME.'applications/'.$args['name'].'/scripts/'.$args['file'];
+					self::$map['scripts.'.$args['position']][$pattern] = THEMES_PATH.THEME.'/applications/'.$args['name'].'/scripts/'.$args['file'];
 				} elseif(self::inApplication($args['name'],$args['file'])) {
 					self::$map['scripts.'.$args['position']][$pattern] = APPS_PATH.$args['name'].'/scripts/'.$args['file'];
 				}
@@ -99,19 +101,23 @@ class scripts {
 			switch(self::$mode){
 				case('internal'):
 					foreach(self::$map['scripts.'.$position] as $args){
-						switch($args['req']['type']){
-							case('url'):
-								self::addExternal($args['req']);
-								break;
-							default:
-								self::addInternal($args['req']);
-								break;
+						if(!empty($args['req'])){
+							switch($args['req']['type']){
+								case('url'):
+									self::addExternal($args['req']);
+									break;
+								default:
+									self::addInternal($args['req']);
+									break;
+							}
 						}
 					}
 					break;
 				case('external'):
 					foreach(self::$map['scripts.'.$position] as $args){
-						self::addExternal($args['req']);
+						if(!empty($args['req'])){
+							self::addExternal($args['req']);
+						}
 					}
 					break;
 			}

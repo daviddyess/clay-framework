@@ -10,7 +10,7 @@ namespace claydb\datadict;
  */
 
 	# Import the Data Dictionary Abstract and Interface
-	\library('claydb/datadict');
+	\Library('ClayDB/datadict');
 
 	/**
 	 * ClayDB PDO MySQL Data Dictionary
@@ -168,9 +168,17 @@ namespace claydb\datadict;
 			} else {
 				$args['default'] = '';
 			}
-				
+			
 			if(!empty($args['null']) && empty($args['default'])){
-				$args['default'] = 'DEFAULT NULL';
+				# TEXT and BLOB can't have DEFAULT NULL
+				if(($args['type'] == 'TEXT') OR ($args['type'] == 'BLOB')){
+					
+					$args['default'] = '';
+					
+				} else {
+					
+					$args['default'] = 'DEFAULT NULL';
+				}
 			}
 			
 			if(!empty($args['null'])){
@@ -219,7 +227,6 @@ namespace claydb\datadict;
 			$column = $args['name'].' '.$args['type'].$args['size'].' '.$args['unsigned'].' '.$args['zerofill'].' '.$args['null'].' '.$args['default'].' '.$args['autoincrement'].' '.$args['key'];
 			
 			unset($args);
-			
 			return $column;
 		}
 		/**

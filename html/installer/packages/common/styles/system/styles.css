@@ -1,0 +1,722 @@
+/* Generic CSS Classes adapted from Xaraya Framework, xaraya.com */
+	/* explicit removal of default or inherited borders */
+.noborder {
+	border: 0 none;
+}
+
+/* good for generic static container-boxes */
+.standard-box-padding {
+	padding: 0 1em 1em 1em;
+}
+
+/* generic alignments */
+.align-center {
+	text-align: center;
+}
+
+.align-left {
+	text-align: left;
+}
+
+.align-right {
+	text-align: right;
+}
+
+/* white space control */
+.nowrap {
+	white-space: nowrap;
+}
+
+/* inline boxes alignments */
+.valign-top {
+	vertical-align: top;
+}
+
+.valign-middle {
+	vertical-align: middle;
+}
+
+.valign-bottom {
+	vertical-align: bottom;
+}
+
+.valign-baseline {
+	vertical-align: baseline;
+}
+
+.valign-texttop {
+	vertical-align: text-top;
+}
+
+.valign-textbottom {
+	vertical-align: text-bottom;
+}
+
+.valign-sub {
+	vertical-align: sub;
+}
+
+.valign-super {
+	vertical-align: super;
+}
+
+/* EXPERIMENTAL RULES - keep them near the bottom!! the following rules arent used anywhere yet, when actually deployed, move near the top */
+.quarterwidth {
+	width: 24%;
+}
+
+.thirdwidth {
+	width: 33%;
+}
+
+.halfwidth {
+	width: 49%;
+}
+
+.twothirdwidth {
+	width: 66%;
+}
+
+.threequarterswidth {
+	width: 75%;
+}
+
+.inheritwidth {
+	width: inherit;
+}
+
+.autowidth {
+	width: auto;
+}
+
+/* we use this class when positioning tables inside generic box, so that ie-win can calculate the widths correctly */
+.fullwidth {
+	width: 100%;
+}
+
+.fullwidth,.halfwidth,.thirdwidth,.quarterwidth,.twothirdwidth,.threequarterswidth
+	{
+	padding: 0;
+	/* margin: auto 0; */
+}
+
+/* elements display directives */
+.displayinline {
+	display: inline;
+}
+
+.displayblock {
+	display: block;
+}
+
+.displayinline-block {
+	display: inline-block;
+}
+
+.displaytable {
+	display: table;
+}
+
+.displayinline-table {
+	display: inline-table;
+}
+
+.displaytable-row {
+	display: table-row;
+}
+
+.displaytable-rowgroup {
+	display: table-row-group;
+}
+
+.displaytable-column {
+	display: table-column;
+}
+
+.displaytable-columngroup {
+	display: table-column-group;
+}
+
+.displaytable-cell {
+	display: table-cell;
+}
+
+.displaytable-caption {
+	display: table-caption;
+}
+
+.displaylist {
+	display: list-item;
+}
+
+.displayinherit {
+	display: inherit;
+}
+
+.displaynone {
+	display: none;
+}
+
+/* floated box elements positioning */
+.floatleft {
+	float: left;
+}
+
+.floatright {
+	float: right;
+}
+
+/* floater height clearing - use with caution, see Hint (3) above */
+.clearleft {
+	clear: left;
+}
+
+.clearright {
+	clear: right;
+}
+
+.clearboth {
+	clear: both;
+}
+
+/* overflow control */
+.overflow-auto {
+	overflow: auto;
+}
+
+.overflow-scroll {
+	overflow: scroll;
+}
+
+.overflow-hidden {
+	overflow: hidden;
+}
+
+.overflow-visible {
+	overflow: visible;
+}
+
+/* this class may be deprecated in future in favour of more specific rules */
+.clearnone {
+	clear: none;
+}
+
+/* common form elements */
+.form-textshort {
+	width: 5em;
+}
+
+.form-textmedium {
+	width: 10em;
+}
+
+.form-textlong {
+	width: 20em;
+}
+
+.form-textxlong {
+	width: 25em;
+}
+
+.form-textxxlong {
+	width: 30em;
+}
+
+.form-textareasmall {
+	height: 6ex;
+	width: 90%;
+}
+
+.form-textareamedium {
+	height: 10ex;
+	width: 90%;
+}
+
+.form-textarealarge {
+	height: 20ex;
+	width: 90%;
+}
+
+.form-textareaxlarge {
+	height: 40ex;
+	width: 90%;
+}
+
+/* scrollable area heights */
+.area-small {
+	height: 10ex;
+}
+
+.area-medium {
+	height: 20ex;
+}
+
+.area-large {
+	height: 40ex;
+}
+
+/* minimal formatting - relative padding */
+.padding-none {
+	padding: 0;
+}
+
+.padding-nonetop {
+	padding-top: 0;
+}
+
+.padding-noneright {
+	padding-right: 0;
+}
+
+.padding-nonebottom {
+	padding-bottom: 0;
+}
+
+.padding-noneleft {
+	padding-left: 0;
+}
+
+.padding-nonesides {
+	padding-left: 0;
+	padding-right: 0;
+}
+
+.padding-noneends {
+	padding-top: 0;
+	padding-bottom: 0;
+}
+
+.padding-thin {
+	padding: 1px;
+}
+
+.padding-thintop {
+	padding-top: 1px;
+}
+
+.padding-thinright {
+	padding-right: 1px;
+}
+
+.padding-thinbottom {
+	padding-bottom: 1px;
+}
+
+.padding-thinleft {
+	padding-left: 1px;
+}
+
+.padding-thinsides {
+	padding-left: 1px;
+	padding-right: 1px;
+}
+
+.padding-thinends {
+	padding-top: 1px;
+	padding-bottom: 1px;
+}
+
+.padding-medium {
+	padding: 2px;
+}
+
+.padding-mediumtop {
+	padding-top: 2px;
+}
+
+.padding-mediumright {
+	padding-right: 2px;
+}
+
+.padding-mediumbottom {
+	padding-bottom: 2px;
+}
+
+.padding-mediumleft {
+	padding-left: 2px;
+}
+
+.padding-mediumsides {
+	padding-left: 2px;
+	padding-right: 2px;
+}
+
+.padding-mediumends {
+	padding-top: 2px;
+	padding-bottom: 2px;
+}
+
+.padding-thick {
+	padding: 4px;
+}
+
+.padding-thicktop {
+	padding-top: 4px;
+}
+
+.padding-thickright {
+	padding-right: 4px;
+}
+
+.padding-thickbottom {
+	padding-bottom: 4px;
+}
+
+.padding-thickleft {
+	padding-left: 4px;
+}
+
+.padding-thicksides {
+	padding-left: 4px;
+	padding-right: 4px;
+}
+
+.padding-thickends {
+	padding-top: 4px;
+	padding-bottom: 4px;
+}
+
+/* minimal formatting - relative margin */
+.margin-none {
+	margin: 0;
+}
+
+.margin-nonetop {
+	margin-top: 0;
+}
+
+.margin-noneright {
+	margin-right: 0;
+}
+
+.margin-nonebottom {
+	margin-bottom: 0;
+}
+
+.margin-noneleft {
+	margin-left: 0;
+}
+
+.margin-nonesides {
+	margin-left: 0;
+	margin-right: 0;
+}
+
+.margin-noneends {
+	margin-top: 0;
+	margin-bottom: 0;
+}
+
+.margin-thin {
+	margin: 1px;
+}
+
+.margin-thintop {
+	margin-top: 1px;
+}
+
+.margin-thinright {
+	margin-right: 1px;
+}
+
+.margin-thinbottom {
+	margin-bottom: 1px;
+}
+
+.margin-thinleft {
+	margin-left: 1px;
+}
+
+.margin-thinsides {
+	margin-left: 1px;
+	margin-right: 1px;
+}
+
+.margin-thinends {
+	margin-top: 1px;
+	margin-bottom: 1px;
+}
+
+.margin-medium {
+	margin: 2px;
+}
+
+.margin-mediumtop {
+	margin-top: 2px;
+}
+
+.margin-mediumright {
+	margin-right: 2px;
+}
+
+.margin-mediumbottom {
+	margin-bottom: 2px;
+}
+
+.margin-mediumleft {
+	margin-left: 2px;
+}
+
+.margin-mediumsides {
+	margin-left: 2px;
+	margin-right: 2px;
+}
+
+.margin-mediumends {
+	margin-top: 2px;
+	margin-bottom: 2px;
+}
+
+.margin-thick {
+	margin: 4px;
+}
+
+.margin-thicktop {
+	margin-top: 4px;
+}
+
+.margin-thickright {
+	margin-right: 4px;
+}
+
+.margin-thickbottom {
+	margin-bottom: 4px;
+}
+
+.margin-thickleft {
+	margin-left: 4px;
+}
+
+.margin-thicksides {
+	margin-left: 4px;
+	margin-right: 4px;
+}
+
+.margin-thickends {
+	margin-top: 4px;
+	margin-bottom: 4px;
+}
+
+/* minimal formatting - border control */
+.border-none {
+	border-width: 0;
+}
+
+.border-nonetop {
+	border-top-width: 0;
+}
+
+.border-noneright {
+	border-right-width: 0;
+}
+
+.border-nonebottom {
+	border-bottom-width: 0;
+}
+
+.border-noneleft {
+	border-left-width: 0;
+}
+
+.border-nonesides {
+	border-left-width: 0;
+	border-right-width: 0;
+}
+
+.border-noneends {
+	border-top-width: 0;
+	border-bottom-width: 0;
+}
+
+.border-thin {
+	border: 1px solid;
+}
+
+.border-thintop {
+	border-top: 1px solid;
+}
+
+.border-thinright {
+	border-right: 1px solid;
+}
+
+.border-thinbottom {
+	border-bottom: 1px solid;
+}
+
+.border-thinleft {
+	border-left: 1px solid;
+}
+
+.border-thinsides {
+	border-left-width: 1px;
+	border-right-width: 1px;
+}
+
+.border-thinends {
+	border-top-width: 1px;
+	border-bottom-width: 1px;
+}
+
+.border-medium {
+	border-width: 2px;
+}
+
+.border-mediumtop {
+	border-top-width: 2px;
+}
+
+.border-mediumright {
+	border-right-width: 2px;
+}
+
+.border-mediumbottom {
+	border-bottom-width: 2px;
+}
+
+.border-mediumleft {
+	border-left-width: 2px;
+}
+
+.border-mediumsides {
+	border-left-width: 2px;
+	border-right-width: 2px;
+}
+
+.border-mediumends {
+	border-top-width: 2px;
+	border-bottom-width: 2px;
+}
+
+.border-thick {
+	border-width: 4px;
+}
+
+.border-thicktop {
+	border-top-width: 4px;
+}
+
+.border-thickright {
+	border-right-width: 4px;
+}
+
+.border-thickbottom {
+	border-bottom-width: 4px;
+}
+
+.border-thickleft {
+	border-left-width: 4px;
+}
+
+.border-thicksides {
+	border-left-width: 4px;
+	border-right-width: 4px;
+}
+
+.border-thickends {
+	border-top-width: 4px;
+	border-bottom-width: 4px;
+}
+
+/* minimal formatting - border styles */
+.border-inherit {
+	border-style: inherit;
+}
+
+.border-none {
+	border-style: none;
+}
+
+.border-hidden {
+	border-style: hidden;
+}
+
+.border-dotted {
+	border-style: dotted;
+}
+
+.border-dashed {
+	border-style: dashed;
+}
+
+.border-solid {
+	border-style: solid;
+}
+
+.border-groove {
+	border-style: groove;
+}
+
+.border-ridge {
+	border-style: ridge;
+}
+
+.border-inset {
+	border-style: inset;
+}
+
+.border-outset {
+	border-style: outset;
+}
+
+.border-double {
+	border-style: double;
+}
+
+/* positioning of specific block elements */
+div.center {
+	text-align: center;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+/* lists and related elements */
+.navlist {
+	padding-left: 0;
+	margin-left: 0;
+}
+
+.list-nostyle {
+	list-style: none;
+}
+
+/* miscellaneous utility clases */
+.module-icon {
+	float: right;
+	padding: 10px;
+}
+
+.form-label {
+	width: 15em;
+	display: block;
+	float: left;
+}
+
+.form-labelshort {
+	width: 7em;
+	display: block;
+	float: left;
+}
+
+.form-labellong {
+	width: 25em;
+	display: block;
+	float: left;
+}
+
+.form-input-wrapper {
+	margin-bottom: 4px;
+	/*overflow:none;*/
+}
+
+.form-input-wrapper-after {
+	width: auto;
+	padding-left: 16em;
+	margin-bottom: 4px;
+	clear: both;
+}
+
+.form-container-after {
+	margin-left: 16em;
+	margin-bottom: 4px;
+}

@@ -8,15 +8,14 @@ namespace claydo\property\form;
 * @link http://clay-project.com
 * @author David L Dyess II (david.dyess@gmail.com)
 */
-\library('claydo/property/form/select');
+\Library('ClayDO/property/form/select');
 
 class multiselect extends \claydo\property\form\select {
 	
-	# Inherits public $object = 'form';
-	# Inherits public $options = array();
-	# Override
-	public $selected = array();
-	# Override
+	public $object = 'form';
+	public $label;
+	# <option> tags - options[] array('value' => x, 'content' => y, 'selected' => z)
+	public $options = array();
 	public $template = 'claydo/properties/form/multiselect';
 
 }

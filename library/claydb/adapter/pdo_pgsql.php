@@ -68,7 +68,7 @@ namespace claydb\adapter;
 			$this->database = $database;
 		}
 		function datadict(){
-			\library("claydb/datadict/pdo_pgsql");
+			\Library("ClayDB/datadict/pdo_pgsql");
 			$datadict = new \claydb\datadict\pdo_pgsql($this->link);
 			return $datadict;
 		}

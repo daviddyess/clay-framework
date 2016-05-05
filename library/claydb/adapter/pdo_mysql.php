@@ -9,9 +9,7 @@ namespace claydb\adapter;
  * @author David L Dyess II (david.dyess@gmail.com)
  */
 	# Import the Adapter Abstract and Interface
-	use application\objects\object;
-
-	\library('claydb/adapter');
+	\Library('ClayDB/adapter');
 
 	class pdo_mysql extends \claydb\adapter {
 		# Database Name
@@ -129,7 +127,7 @@ namespace claydb\adapter;
 		 * Used for database manipulation
 		 */
 		public function datadict(){
-			\library("claydb/datadict/pdo_mysql");
+			\Library("ClayDB/datadict/pdo_mysql");
 			$datadict = new \claydb\datadict\pdo_mysql($this->link);
 			return $datadict;
 		}

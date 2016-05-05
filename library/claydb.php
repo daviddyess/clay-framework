@@ -1,5 +1,8 @@
 <?php
 /**
+ * @file claydb.php
+ */
+/**
  * ClayDB
  * The development version for ClayDB 2.0
  * @copyright (C) 2007-2012 David L Dyess II
@@ -23,7 +26,7 @@
 		# uses the appropriate driver to create a connection
 		private static function connection($dsn){
 			# Import our adapter
-			\library('claydb/adapter/'.self::$adapters[$dsn['driver']]);
+			\Library('ClayDB/adapter/'.self::$adapters[$dsn['driver']]);
 			# Adapter class as a string (notice difference between path and namespace)
 			$driver = '\claydb\adapter\\'.self::$adapters[$dsn['driver']];
 			$conn = new $driver;
@@ -78,6 +81,7 @@
 			$conn = self::connection($dsn);
 			# Save our connection resource, so it can be reused later.
 			self::$connections["$host.$type.$usern"] = $conn;
+			$conn->selectDB($dbname);
 			self::tables();
 			# Returns the connection resource
 			return $conn;

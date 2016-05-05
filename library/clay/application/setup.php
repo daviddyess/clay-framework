@@ -1,5 +1,5 @@
 <?php
-namespace clay\application;
+namespace Clay\Application;
 /**
  * Clay Framework
  *
@@ -12,69 +12,199 @@ namespace clay\application;
  * @author David L Dyess II (david.dyess@gmail.com)
  */
 
-abstract class setup {
+/**
+ * Application Setup Library
+ * @author David
+ *
+ */
+abstract class Setup {
 
+	/**
+	 * Path to Applications
+	 * @var string
+	 */
 	public $path = \clay\APPS_PATH;
+	
+	/**
+	 * Application name
+	 * @var string
+	 */
 	public $application;
+	
+	/**
+	 * Application State
+	 * @var int
+	 */
+	public $state;
+	
+	/**
+	 * Application Version
+	 * @var string
+	 */
 	public $version;
+	
+	/**
+	 * Application Setup Class
+	 * @var string
+	 */
 	public $api = 'setup';
+	
+	/**
+	 * Defer Registration to After Installation
+	 */
 	private $bypass = NULL;
 
-	abstract function register();
+	/**
+	 * Register the Installed Application
+	 */
+	abstract function Register();
 
-	public function install($app,$state,$args=array(),$bypass=NULL){
+	/**
+	 * Run Application Setup Installation
+	 * @param string $app
+	 * @param int $state
+	 * @param array $args
+	 * @param boolean $bypass
+	 * @return boolean
+	 */
+	public function Install($app,$state,$args=array(),$bypass=NULL){
+		
 		$this->application = $app;
 		$this->state = $state;
-		if(is_null($bypass)) $this->register();
-		$this->import();
-		$api = $this->setup();
-		if(!$api::install($args)) return false;
-		if(!is_null($bypass)) {
-			if(!$this->register()) return false;
+		
+		if(is_null($bypass)){
+			
+			$this->Register();
 		}
+		
+		$this->Import();
+		
+		$api = $this->Setup();
+		
+		if(!$api::install($args)){
+			
+			return false;
+		}
+		
+		if(!is_null($bypass)) {
+			
+			if(!$this->Register()) return false;
+		}
+		
 		return true;
 	}
 
-	abstract function update();
+	/**
+	 * Update Registered Application
+	 */
+	abstract function Update();
 
-	public function upgrade($app,$state,$version){
+	/**
+	 * Run Application Setup Upgrade
+	 * @param string $app
+	 * @param int $state
+	 * @param string $version
+	 * @return boolean
+	 */
+	public function Upgrade($app,$state,$version){
+		
 		$this->application = $app;
 		$this->state = $state;
 		$this->version = $version;
-		$this->import();
-		$api = $this->setup();
+				
+		$this->Import();
+		
+		$api = $this->Setup();
+		
 		$api::upgrade($version);
-		$this->version = $this->info('version');
-		if(!$this->update()) return false;
+		
+		$this->version = $this->Info('version');
+		
+		if(!$this->Update()){
+			
+			return false;
+		}
+		
 		return true;
 	}
 
-	abstract function remove();
+	/**
+	 * Unregister the Removed Application
+	 */
+	abstract function Remove();
 
-	public function delete($app){
+	/**
+	 * Uninstall an Application
+	 * @param string $app
+	 * @return boolean
+	 */
+	public function Delete($app){
+		
 		$this->application = $app;
-		$this->import();
-		$api = $this->setup();
+		
+		$this->Import();
+		
+		$api = $this->Setup();
+		
 		$api::delete();
-		if(!$this->remove()) return false;
+		
+		$this->version = $this->Info('version');
+		
+		if(!$this->Remove()){
+			
+			return false;
+		}
+		
 		return true;
 	}
 
-	protected function import(){
-		if(empty($this->application)) throw new \Exception('You must specify an application for the Clay Application Setup Library to work.');
-		if(!\import($this->path.$this->application.'/library/'.$this->api)) throw new \Exception('Application Library for '.$this->application.' named '.$this->api.' could not be found.');
+	/**
+	 * Import Application Setup Class
+	 * @throws \Exception
+	 */
+	protected function Import(){
+		
+		if(empty($this->application)){
+			
+			throw new \Exception('You must specify an application for the Clay Application Setup Library to work.');
+		}
+		
+		if(!\import($this->path.$this->application.'/library/'.$this->api)){
+			
+			throw new \Exception('Application Library for '.$this->application.' named '.$this->api.' could not be found.');
+		}
 	}
-	protected function setup(){
+	
+	/**
+	 * Get Setup API Namespace
+	 * @return string
+	 */
+	protected function Setup(){
+		
 		return '\application\\'.$this->application.'\library\\'.$this->api;
 	}
-	public function info($key=NULL){
+	
+	/**
+	 * Get Application Information File Data
+	 * @param string $key (optional)
+	 * @throws \Exception
+	 * @return array
+	 */
+	public function Info($key=NULL){
+		
 		$file = $this->path.$this->application.'/info.php';
+		
 		if(file_exists($file)){
+			
 			include($file);
+			
 			if(!is_null($key)) return $data[$key];
+			
 			return $data;
+			
 		} else {
-			throw new \Exception('Application '.$this->application." doesn't have a valid info data file.");
+			
+			throw new \Exception('Application '.$this->application." doesn't have a valid info data file ($file).");
 		}
 	}
 }

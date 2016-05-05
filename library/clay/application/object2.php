@@ -1,11 +1,11 @@
 <?php
-namespace \clay\application;
+namespace Clay\Application;
 /**
  * Object Test
  * @since 2012-03-22
  */
 
-class object {
+class Object2 {
 	/**
 	 * 
 	 * Build a dynamic object class for using a global object

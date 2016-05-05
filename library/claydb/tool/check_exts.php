@@ -31,7 +31,7 @@ namespace claydb\tool;
 	//$dbext['PDO Oracle'] = extension_loaded('pdo_oci') ? true : false;
 	//$dbext['PDO ODBC/DB2'] = extension_loaded('pdo_odbc') ? true : false;
 	//$dbext['PDO PostgreSQL'] = extension_loaded('pdo_pgsql') ? true : false;
-	$dbext['PDO SQLite'] = extension_loaded('pdo_sqlite') ? 'pdo_sqlite' : false;
+	//$dbext['PDO SQLite'] = extension_loaded('pdo_sqlite') ? 'pdo_sqlite' : false;
 	//$dbext['PDO 4D'] = extension_loaded('pdo_4d') ? true : false;
 	//$dbext['PostgreSQL'] = extension_loaded('pgsql') ? 'pgsql' : false;
 	//$dbext['SQLite'] = extension_loaded('sqlite') ? 'sqlite' : false;

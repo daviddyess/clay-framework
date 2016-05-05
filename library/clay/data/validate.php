@@ -1,9 +1,9 @@
 <?php
-namespace clay\data\validate;
+namespace Clay\Data\Validate;
 /**
  * Clay Framework
  *
- * Granule Library
+ * Data Validation Library
  * - Data Validation
  * @copyright (C) 2007-2010 David L Dyess II
  * @license GPL {@link http://www.gnu.org/licenses/gpl.html}
@@ -11,68 +11,220 @@ namespace clay\data\validate;
  * @author David L Dyess II (david.dyess@gmail.com)
  */
 
-function int($var,$range){
-	if(!empty($range[1])) $options['options']['min_range'] = $range[1];
-	if(!empty($range[2])) $options['options']['max_range'] = $range[2];
-	if(empty($options)) $options = '';
+/**
+ * Validate Integer
+ * @param string $var
+ * @param string $range
+ * @return boolean
+ */
+function Int($var,$range){
+	
+	if(!empty($range[1])){
+		
+		$options['options']['min_range'] = $range[1];
+	}
+	
+	if(!empty($range[2])){
+		
+		$options['options']['max_range'] = $range[2];
+	}
+	
+	if(empty($options)){
+		
+		$options = '';
+	}
+	
 	return filter_var($var,FILTER_VALIDATE_INT,$options);
 }
-function num($var,$range){
-	if(!is_numeric($var)) return false;
-	if(!empty($range[1])) if($var < $range[1]) return false;
-	if(!empty($range[2])) if($var > $range[2]) return false;
+
+/**
+ * Validate Numeric
+ * @param string $var
+ * @param string $range
+ * @return boolean|numeric
+ */
+function Num($var,$range){
+	
+	if(!is_numeric($var)){
+		
+		return false;
+	}
+	
+	if(!empty($range[1])){
+		
+		if($var < $range[1]) return false;
+	}
+	
+	if(!empty($range[2])){
+		
+		if($var > $range[2]) return false;
+	}
+	
 	return $var;
 }
-function float($var,$range){
-	if(!empty($range[1])) if($var < $range[1]) return false;
-	if(!empty($range[2])) if($var > $range[2]) return false;
+
+/**
+ * Validate Float
+ * @param string $var
+ * @param string $range
+ * @return boolean|float
+ */
+function Float($var,$range){
+	
+	if(!empty($range[1])){
+		
+		if($var < $range[1]) return false;
+	}
+	
+	if(!empty($range[2])){
+		
+		if($var > $range[2]) return false;
+	}
+	
 	return filter_var($var, FILTER_VALIDATE_FLOAT);
 }
-function object($var){
-	if(is_object($var)) return $var;
+
+/**
+ * Validate Object
+ * @param string $var
+ * @return object|boolean
+ */
+function Object($var){
+	
+	if(is_object($var)){
+		
+		return $var;
+	}
+	
 	return false;
 }
-function string($var,$range){
-	if(!is_string($var)) return false;
+
+/**
+ * Validate String
+ * @param string $var
+ * @param string $range
+ * @return boolean|string
+ */
+function String($var,$range){
+	
+	if(!is_string($var)){
+		
+		return false;
+	}
+	
 	$length = strlen($var);
-	if(!empty($range[1])) if($length < $range[1]) return false;
-	if(!empty($range[2])) if($length > $range[2]) return false;
-	//return filter_var($var,FILTER_SANITIZE_STRING);
+	if(!empty($range[1])){
+		
+		if($length < $range[1]) return false;
+	}
+	if(!empty($range[2])){
+		
+		if($length > $range[2]) return false;
+	}
+
 	return $var;
 }
-function scalar($var){
-	if(is_scalar($var)) return $var;
+
+/**
+ * Validate Scalar
+ * @param string $var
+ * @return scalar|boolean
+ */
+function Scalar($var){
+	
+	if(is_scalar($var)){
+		
+		return $var;
+	}
+	
 	return false;
 }
-function bool($var){
+
+/**
+ * Validate Boolean
+ * @param string $var
+ * @return boolean
+ */
+function Bool($var){
+	
 	return filter_var($var, FILTER_VALIDATE_BOOLEAN);
 }
-function isarray($var){
-	if(is_array($var)) return $var;
+
+/**
+ * Validate Array
+ * @param array $var
+ * @return array|boolean
+ */
+function isArray($var){
+	
+	if(is_array($var)){
+		
+		return $var;
+	}
+	
 	return false;
 }
-function alnum($var){
-	if(ctype_alnum($var)) return $var;
+
+/**
+ * Validate Alphanumeric
+ * @param string $var
+ * @return string|boolean
+ */
+function Alnum($var){
+	
+	if(ctype_alnum($var)){
+		
+		return $var;
+	}
+	
 	return false;
 }
-function alpha($var){
-	if(ctype_alpha($var)) return $var;
+
+/**
+ * Validate Alphabetic
+ * @param string $var
+ * @return string|boolean
+ */
+function Alpha($var){
+	
+	if(ctype_alpha($var)){
+		
+		return $var;
+	}
+	
 	return false;
 }
-function email($var){
+
+/**
+ * Validate Email Address
+ * @param string $var
+ * @return string|boolean
+ */
+function Email($var){
+	
 	return filter_var($var, FILTER_VALIDATE_EMAIL);
 }
-function url($var){
+
+/**
+ * Validate URL Address
+ * @param string $var
+ * @return string|boolean
+ */
+function URL($var){
+	
 	return filter_var($var, FILTER_VALIDATE_URL, FILTER_FLAG_SCHEME_REQUIRED | FILTER_FLAG_HOST_REQUIRED);
 }
+
 /**
- * HTML Validation
+ * Validate HTML
+ * @todo This obviously isn't operational
  * @desc Determines if a string contains only allowed HTML elements.
  * @param (string) $var - string to validate
  * @param (array) $custom - array of unallowed HTML elements
  * @return (string)$var on success or (bool) false if validation fails
  */
-function html($var,$custom=''){
+function HTML($var,$custom=''){
+	
 	$tags = array('param','script','style','applet','form','object','embed');
 	foreach($tags as $tag){
 		//if(preg_match('#</?'.$tag.'[^>]*>#is', '', $var)) return false;

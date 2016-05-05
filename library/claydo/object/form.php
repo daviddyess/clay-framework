@@ -8,7 +8,7 @@ namespace claydo\object;
 * @link http://clay-project.com
 * @author David L Dyess II (david.dyess@gmail.com)
 */
-\library('claydo/object');
+\Library('ClayDO/object');
 
 class form extends \claydo\object {
 
@@ -22,7 +22,7 @@ class form extends \claydo\object {
 	 */
 	public function property($name, $type = NULL){
 		if(!is_null($type)) {
-			\library('claydo/property/'.$this->object.'/'.$type);
+			\Library('ClayDO/property/'.$this->object.'/'.$type);
 			$prop = '\claydo\property\\'.$this->object.'\\'.$type;
 			$this->properties[$name] = new $prop;
 		}

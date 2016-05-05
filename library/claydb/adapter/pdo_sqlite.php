@@ -57,7 +57,7 @@ namespace claydb\adapter;
 			$this->database = $database;
 		}
 		function datadict(){
-			\library("claydb/datadict/pdo_sqlite");
+			\Library("ClayDB/datadict/pdo_sqlite");
 			$datadict = new \claydb\datadict\pdo_sqlite($this->link);
 			return $datadict;
 		}

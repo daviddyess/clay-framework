@@ -1,21 +1,20 @@
 <?php
-namespace clay\data\filter;
+namespace Clay\Data\Filter;
 
-function reg_escape( $str )
+function Reg_Escape( $str )
 {
 	$conversions = array( "^" => "\^", "[" => "\[", "." => "\.", "$" => "\$", "{" => "\{", "*" => "\*", "(" => "\(", "\\" => "\\\\", "/" => "\/", "+" => "\+", ")" => "\)", "|" => "\|", "?" => "\?", "<" => "\<", ">" => "\>" );
 	return strtr( $str, $conversions );
 }
 
 /**
-* HTML Filter
+* HTML Filter Library
 * Strip attribute Class
 * Remove attributes from XML elements
 * @author David (semlabs.co.uk)
 * @version 0.2.1-clay
 */
-
-class html
+class HTML
 {
 	
 	public $str			= '';
@@ -84,12 +83,12 @@ class html
 					$value = $attributes[2][$att_key];
 					$atts[] = array( 'literal' => $literal, 'name' => $attribute_name, 'value' => $value );
 				}
-			}
-			else
+				$node['attributes'] = $atts;
+				unset( $atts );
+			} else {
 				$node['attributes'] = null;
-			
-			$node['attributes'] = $atts;
-			unset( $atts );
+			}
+						
 		}
 		
 		return $nodes;

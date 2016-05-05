@@ -8,7 +8,7 @@ namespace claydo\property\form;
 * @link http://clay-project.com
 * @author David L Dyess II (david.dyess@gmail.com)
 */
-\library('claydo/object/form');
+\Library('ClayDO/object/form');
 
 class text extends \claydo\object\form {
 	public $object = 'form';

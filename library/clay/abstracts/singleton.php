@@ -1,5 +1,5 @@
 <?php
-namespace clay\abstracts;
+namespace Clay\abstracts;
 /**
  * Clay Framework
  *
